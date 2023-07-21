@@ -1,13 +1,13 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'Increment UPM Version'
+description: 'Update minor version number of a Unity Package'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  package-json:  # id of input
+    description: 'path to Unity package.json file'
     required: true
-    default: 'World'
+    default: 'package.json'
 outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  new-version: # id of output
+    description: 'Incremented version number xx.yy.zz'
 runs:
   using: 'node16'
   main: 'index.js'

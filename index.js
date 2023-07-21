@@ -2,14 +2,21 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 
 try {
-  // `who-to-greet` input defined in action metadata file
-  const nameToGreet = core.getInput('who-to-greet');
-  console.log(`Hello ${nameToGreet}!`);
+  const jsonPath = core.getInput('package-json');
   const time = (new Date()).toTimeString();
-  core.setOutput("time", time);
-  // Get the JSON webhook payload for the event that triggered the workflow
-  const payload = JSON.stringify(github.context.payload, undefined, 2)
-  console.log(`The event payload: ${payload}`);
+  var fs = require('fs')
+  fs.readFile(filename, 'utf8', function (err,data) {
+    if (err) {
+      console.log(err);
+    } else {
+        let jsonData = JSON.parse(data);
+
+        let ver = jsonData["version"];
+
+      console.log(ver)
+      core.setOutput("new-version", time);
+    }
+});
 } catch (error) {
   core.setFailed(error.message);
 }
