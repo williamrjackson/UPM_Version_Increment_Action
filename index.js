@@ -12,9 +12,12 @@ try {
         let jsonData = JSON.parse(data);
 
         let ver = jsonData["version"];
-
-      console.log(ver)
-      core.setOutput("new-version", time);
+        var nums = ver.replace(' ', '').split('.')
+        var revision = parseInt(nums[nums.length -1]);
+        nums[nums.length -1] = revision + 1;
+                
+        console.log(nums[nums.length -1])
+        core.setOutput("new-version", nums[0] + "." + nums[1] + "." + nums[2]);
     }
 });
 } catch (error) {
