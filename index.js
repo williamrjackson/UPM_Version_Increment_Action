@@ -2,7 +2,7 @@ const core = require('@actions/core');
 
 try {
   const jsonPath = core.getInput('path');
-  const targetVal = core.getInput('value');
+  const targetVal = core.getInput('key');
   var fs = require('fs')
   fs.readFile(jsonPath, 'utf8', function (err,data) {
     if (err) {
