@@ -5,7 +5,7 @@ try {
   const jsonPath = core.getInput('package-json');
   const time = (new Date()).toTimeString();
   var fs = require('fs')
-  fs.readFile(filename, 'utf8', function (err,data) {
+  fs.readFile(jsonPath, 'utf8', function (err,data) {
     if (err) {
       console.log(err);
     } else {
