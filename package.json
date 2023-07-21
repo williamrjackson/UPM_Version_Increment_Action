@@ -1,7 +1,7 @@
 {
-  "name": "upm_version_increment_action",
+  "name": "get_json_string",
   "version": "1.0.0",
-  "description": "This action increments a Unity package version and tags the revision. Tagged URLs are added to the readme.",
+  "description": "Gets a JSON string.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

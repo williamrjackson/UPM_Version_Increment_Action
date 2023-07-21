@@ -1,13 +1,17 @@
-name: 'Increment UPM Version'
-description: 'Update minor version number of a Unity Package'
+name: 'Get JSON Value'
+description: 'Get a value from a json file'
 inputs:
-  package-json:  # id of input
-    description: 'path to Unity package.json file'
+  path:  # id of input
+    description: 'path to json file'
     required: true
     default: 'package.json'
+  key:  
+    description: 'key to retrieve value for'
+    required: true
+    default: 'version'
 outputs:
-  new-version: # id of output
-    description: 'Incremented version number xx.yy.zz'
+  value: # id of output
+    description: 'Output Value'
 runs:
   using: 'node16'
   main: 'index.js'
