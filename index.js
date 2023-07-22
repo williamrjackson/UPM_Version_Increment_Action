@@ -42,7 +42,7 @@ try {
         }
 
         const newVer = maj + "." + min + "." + pch 
-        jsonData[targetKey] = newVer;
+        jsonData['version'] = newVer;
         core.setOutput("value", newVer);
 
         // Stringify and write to file.
