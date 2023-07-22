@@ -5,10 +5,10 @@ inputs:
     description: 'path to json file'
     required: true
     default: 'package.json'
-  key:  
-    description: 'key to retrieve value for'
+  increment:  
+    description: 'which number to increment: major|minor|patch'
     required: true
-    default: 'version'
+    default: 'patch'
 outputs:
   value: # id of output
     description: 'Output Value'
