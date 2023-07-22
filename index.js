@@ -22,7 +22,7 @@ try {
         })
       
         let jsonData = JSON.parse(data);
-        let ver = jsonData[targetKey];
+        let ver = jsonData['version'];
 
         const nums = ver.split('.');
         let maj = parseInt(nums[0]);
