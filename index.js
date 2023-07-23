@@ -1,6 +1,5 @@
 const core = require('@actions/core');
 const { context, getOctokit } = require('@actions/github');
-const { verify } = require('crypto');
 
 async function run() {
   const inc = core.getInput('increment');
@@ -43,7 +42,7 @@ async function getVersion() {
         jsonData = JSON.parse(data);
         var ver = jsonData['version'];
         console.log(`returning ${ver}`);
-        resolve(ver);
+        resolve({data: ver});
       }
   })}, 5000));
 }
