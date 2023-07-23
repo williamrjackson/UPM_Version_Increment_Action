@@ -8,18 +8,12 @@ try {
     if (err) {
       console.log(err);
     } else {
-        const { exec } = require('node:child_process')
-        // run the `ls` command using exec
-        exec('git tag', (err, output) => {
-            // once the command has completed, the callback function is called
-            if (err) {
-                // log and return if we encounter an error
-                console.error("could not execute command: ", err);
-                return;
-            }
-            // log the output received from the command
-            console.log(output);
-        })
+      const util = require('node:util');
+      const exec = util.promisify(require('node:child_process').exec);
+      
+      const { stdout, stderr } = exec('git tag');
+      console.log('stdout:', stdout);
+      console.error('stderr:', stderr);
       
         let jsonData = JSON.parse(data);
         let ver = jsonData['version'];
