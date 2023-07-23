@@ -2,7 +2,7 @@ const core = require('@actions/core');
 const { context, getOctokit } = require('@actions/github');
 
 async function run() {
-  var fs = require('fs')
+  var fs = require('fs').promises;
   try {
     const jsonPath = core.getInput('path');
     const inc = core.getInput('increment');
@@ -10,7 +10,7 @@ async function run() {
     let min = 0;
     let pch = 0;
     var ver = "";
-    fs.readFile(jsonPath, 'utf8', function (err, data) {
+    await fs.readFile(jsonPath, 'utf8', function (err, data) {
       if (err) {
         core.setFailed(err);
       } else {
