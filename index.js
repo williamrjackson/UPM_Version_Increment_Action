@@ -3,18 +3,9 @@ const { context, getOctokit } = require('@actions/github');
 
 async function run() {
   var fs = require('fs').promises;
-  const jsonPath = core.getInput('path');
   const inc = core.getInput('increment');
-  var jsonData;
-  await fs.readFile(jsonPath, 'utf8', function (err, data) {
-    if (err) {
-      core.setFailed(err);
-    } else {
-      jsonData = JSON.parse(data);
-    }
-  })
   
-  let ver = jsonData['version'];
+  let ver = await getVersion();
 
   var tagExists = await checkTag(ver);
   if (tagExists) {
@@ -36,15 +27,38 @@ async function run() {
     }
 
     ver = maj + "." + min + "." + pch
-    jsonData['version'] = newVer;
-    // Stringify and write to file.
-    fs.writeFile(jsonPath, JSON.stringify(jsonData), function (err) {
-      if (err) {
-        core.setFailed(err);
-      }
-    });
   };
   core.setOutput("value", ver);
+}
+async function getVersion()
+{
+  const jsonPath = core.getInput('path');
+  await fs.readFile(jsonPath, 'utf8', function (err, data) {
+    if (err) {
+      core.setFailed(err);
+    } else {
+      jsonData = JSON.parse(data);
+      return jsonData['version'];
+    }
+  })
+}
+
+async function writeVersion(version)
+{
+  const jsonPath = core.getInput('path');
+  await fs.readFile(jsonPath, 'utf8', function (err, data) {
+    if (err) {
+      core.setFailed(err);
+    } else {
+      jsonData = JSON.parse(data);
+      jsonData['version'] = version;
+      fs.writeFile(jsonPath, JSON.stringify(jsonData), function (err) {
+        if (err) {
+          core.setFailed(err);
+        }
+      });
+    }
+  })
 }
 
 async function checkTag(tag) {
