@@ -51,7 +51,7 @@ function run() {
 
 function checkTag(tag) {
   console.log(`Searching for tag: ${tag}`);
-  const token = getInput( 'github_token' );
+  const token = core.getInput( 'github_token' );
   if ( ! token ) {
     setFailed( 'Input `github_token` is required' );
     return;
