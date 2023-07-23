@@ -50,7 +50,6 @@ function run() {
 const { context, GitHub } = require('@actions/github');
 
 function checkTag(tag) {
-  const tag = process.env.TAG || process.env.INPUT_TAG || '';
   console.log(`Searching for tag: ${tag}`);
 
   // Get owner and repo from context of payload that triggered the action
