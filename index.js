@@ -1,12 +1,13 @@
 const core = require('@actions/core');
 const { context, getOctokit } = require('@actions/github');
+const { verify } = require('crypto');
 
 async function run() {
   const inc = core.getInput('increment');
   
-  let ver = await getVersion();
+  let ver = await Promise(getVersion());
 
-  var tagExists = await checkTag(ver);
+  var tagExists = await Promise(checkTag(ver));
   if (tagExists) {
     console.log("tag exists");
     const nums = ver.split('.');
@@ -30,21 +31,21 @@ async function run() {
   };
   core.setOutput("value", ver);
 }
-async function getVersion()
-{
-  console.log(`getting version`);
-  var fs = require('fs').promises;
-  const jsonPath = core.getInput('path');
-  await fs.readFile(jsonPath, 'utf8', function (err, data) {
-    if (err) {
-      core.setFailed(err);
-    } else {
-      jsonData = JSON.parse(data);
-      var ver = jsonData['version'];
-      console.log(`returning ${ver}`);
-      return ver;
-    }
-  })
+async function getVersion() {
+  return new Promise(resolve => setTimeout(() => {
+    console.log(`getting version`);
+    var fs = require('fs').promises;
+    const jsonPath = core.getInput('path');
+    fs.readFile(jsonPath, 'utf8', function (err, data) {
+      if (err) {
+        core.setFailed(err);
+      } else {
+        jsonData = JSON.parse(data);
+        var ver = jsonData['version'];
+        console.log(`returning ${ver}`);
+        resolve(ver);
+      }
+  })}, 5000));
 }
 
 async function writeVersion(version)
