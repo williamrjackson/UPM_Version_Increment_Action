@@ -14,8 +14,10 @@ inputs:
     required: true
     default: ${{ github.token }}
 outputs:
-  value: # id of output
-    description: 'Output Value'
+  version: # id of output
+    description: 'version'
+  incremented: # id of output
+    description: 'incremented'
 runs:
   using: 'node16'
   main: 'index.js'

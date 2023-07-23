@@ -1,7 +1,6 @@
 const core = require('@actions/core');
-const { context, getOctokit } = require('@actions/github');
 
-async function run() {
+function run() {
   var fs = require('fs')
   try {
     const jsonPath = core.getInput('path');
@@ -12,7 +11,7 @@ async function run() {
     var ver = "";
     var newVer = "";
     var jsonData;
-    await fs.readFile(jsonPath, 'utf8', function (err, data) {
+    fs.readFile(jsonPath, 'utf8', function (err, data) {
       if (err) {
         core.setFailed(err);
       } else {
@@ -36,55 +35,26 @@ async function run() {
           break;
       }
       newVer = maj + "." + min + "." + pch
+      core.setOutput("incremented", ver);
+      core.setOutput("version", newVer);
     });
-    var tagExists = await checkTag(`v${ver}`);
-    if (tagExists)
-    {
-      jsonData['version'] = newVer;
-      // Stringify and write to file.
-      fs.writeFile(jsonPath, JSON.stringify(jsonData), function (err) {
-        if (err) {
-          core.setFailed(err);
-        }
-      });
-      console.log("wrote updated file");
-      core.setOutput("value", newVer);
-    }
-    else
-    {
-      core.setOutput("value", ver);
-    }
+    // {
+    //   jsonData['version'] = newVer;
+    //   // Stringify and write to file.
+    //   fs.writeFile(jsonPath, JSON.stringify(jsonData), function (err) {
+    //     if (err) {
+    //       core.setFailed(err);
+    //     }
+    //   });
+    //   console.log("wrote updated file");
+    // }
+    // else
+    // {
+    // }
   } catch (error) {
     core.setFailed(error);
   }
 }
 
-async function checkTag(tag) {
-  console.log(`Searching for tag: ${tag}`);
-  const token = core.getInput('github_token');
-  if (!token) {
-    setFailed('Input `github_token` is required');
-    return;
-  }
-  // Get owner and repo from context of payload that triggered the action
-  const { owner, repo } = context.repo
-  const octokit = getOctokit(token)
-  try {
-    const getRefResponse = await octokit.rest.git.getRef({
-      owner,
-      repo,
-      ref: `tags/${tag}`
-    });
-    console.log(`should match: ${getRefResponse.status}`)
-    if (getRefResponse.status === 200) {
-      console.log("Tag was found");
-      return true;
-    }
-
-  } catch (error) {
-    console.log(`error: ${error.message}`);
-  }
-  return false;
-}
 
 run();
