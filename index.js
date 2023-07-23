@@ -12,7 +12,7 @@ async function run() {
     var ver = "";
     var newVer = "";
     var jsonData;
-    fs.readFileSync(jsonPath, 'utf8', function (err, data) {
+    await fs.readFile(jsonPath, 'utf8', function (err, data) {
       if (err) {
         core.setFailed(err);
       } else {
