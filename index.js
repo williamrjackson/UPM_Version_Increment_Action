@@ -19,7 +19,7 @@ function run() {
         let min = parseInt(nums[1]);
         let pch = parseInt(nums[2]);
 
-        if (checkTag(ver)) {
+        if (checkTag(`v${ver}`)) {
           switch (inc) {
             case "major":
               maj++;
