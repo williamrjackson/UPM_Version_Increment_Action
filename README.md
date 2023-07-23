@@ -1,23 +1,33 @@
-# Hello world javascript action
+# Unity Package Manager Version Increment
 
-This action prints "Hello World" or "Hello" + the name of a person to greet to the log.
+This action reads and/or increments a Unity package.json file.
 
 ## Inputs
 
-### `who-to-greet`
+### `path`
 
-**Required** The name of the person to greet. Default `"World"`.
+**Required** Path to the Unity Package JSON file. Default `"package.json"`.
+   
+### `increment`
+
+**Required** Which part of the version number to increment: major|minor|patch|none. Default `"none"`.
 
 ## Outputs
 
-### `time`
+### `version`
 
-The time we greeted you.
+The resulting version number. If "none" is provided as the `increment` value you get the current version as read from the package.json file.
 
 ## Example usage
 
 ```yaml
-uses: actions/upm_version_increment_action
-with:
-  who-to-greet: 'Mona the Octocat'
+- name: Increment version
+  id: increment-version
+  uses: williamrjackson/upm_version_increment_action@v1.0.0
+  with: 
+    path: package.json
+    increment: patch
+
+- name: Print incremented
+  run: echo ${{ steps.increment-version.outputs.version }}
 ```
