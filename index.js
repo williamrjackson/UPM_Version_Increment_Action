@@ -2,7 +2,6 @@ const core = require('@actions/core');
 const { context, getOctokit } = require('@actions/github');
 
 async function run() {
-  var fs = require('fs').promises;
   const inc = core.getInput('increment');
   
   let ver = await getVersion();
@@ -32,6 +31,7 @@ async function run() {
 }
 async function getVersion()
 {
+  var fs = require('fs').promises;
   const jsonPath = core.getInput('path');
   await fs.readFile(jsonPath, 'utf8', function (err, data) {
     if (err) {
@@ -45,6 +45,7 @@ async function getVersion()
 
 async function writeVersion(version)
 {
+  var fs = require('fs').promises;
   const jsonPath = core.getInput('path');
   await fs.readFile(jsonPath, 'utf8', function (err, data) {
     if (err) {
