@@ -8,6 +8,7 @@ async function run() {
 
   var tagExists = await checkTag(ver);
   if (tagExists) {
+    console.log("tag exists");
     const nums = ver.split('.');
     let maj = parseInt(nums[0]);
     let min = parseInt(nums[1]);
@@ -31,6 +32,7 @@ async function run() {
 }
 async function getVersion()
 {
+  console.log(`getting version`);
   var fs = require('fs').promises;
   const jsonPath = core.getInput('path');
   await fs.readFile(jsonPath, 'utf8', function (err, data) {
@@ -38,13 +40,16 @@ async function getVersion()
       core.setFailed(err);
     } else {
       jsonData = JSON.parse(data);
-      return jsonData['version'];
+      var ver = jsonData['version'];
+      console.log(`returning ${ver}`);
+      return ver;
     }
   })
 }
 
 async function writeVersion(version)
 {
+  console.log(`writing: ${version}`);
   var fs = require('fs').promises;
   const jsonPath = core.getInput('path');
   await fs.readFile(jsonPath, 'utf8', function (err, data) {
