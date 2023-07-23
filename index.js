@@ -63,12 +63,12 @@ function checkTag(tag) {
     const getRefResponse = octokit.rest.git.getRef({
       owner,
       repo,
-      ref: `tags/${tag}`
+      ref: `tags\/${tag}`
     });
     const getRefResponse2 = octokit.rest.git.getRef({
       owner,
       repo,
-      ref: `tags/shouldfail`
+      ref: `tags\/shouldfail`
     });
     console.log(`should match: ${getRefResponse.status}`)
     console.log(`should fail: ${getRefResponse2.status}`)
