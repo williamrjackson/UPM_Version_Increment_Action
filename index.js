@@ -27,7 +27,7 @@ async function run() {
   } catch (error) {
     core.setFailed(error);
   }
-  var tagExists = await checkTag("v" + ver);
+  var tagExists = await checkTag(ver);
   if (tagExists) {
     switch (inc) {
       case "major":
