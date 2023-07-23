@@ -51,17 +51,21 @@ function run() {
 
 function checkTag(tag) {
   console.log(`Searching for tag: ${tag}`);
-
+  const token = getInput( 'github_token' );
+  if ( ! token ) {
+    setFailed( 'Input `github_token` is required' );
+    return;
+  }
   // Get owner and repo from context of payload that triggered the action
   const { owner, repo } = context.repo
-
+  const octokit = github.getOctokit(token)
   try {
-    const getRefResponse = github.git.getRef({
+    const getRefResponse = octokit.git.getRef({
       owner,
       repo,
       ref: `tags/${tag}`
     });
-    const getRefResponse2 = github.git.getRef({
+    const getRefResponse2 = octokit.git.getRef({
       owner,
       repo,
       ref: `tags/shouldfail`
