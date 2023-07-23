@@ -61,7 +61,13 @@ function checkTag(tag) {
       repo,
       ref: `tags/${tag}`
     });
-
+    const getRefResponse2 = github.git.getRef({
+      owner,
+      repo,
+      ref: `tags/shouldfail`
+    });
+    console.log(`should match: ${getRefResponse}`)
+    console.log(`should fail: ${getRefResponse2}`)
     if (getRefResponse.status === 200) {
       console.log("Tag was found");
       return true;
