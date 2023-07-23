@@ -1,52 +1,79 @@
 const core = require('@actions/core');
 
-try {
-  const jsonPath = core.getInput('path');
-  const inc = core.getInput('increment');
-  var fs = require('fs')
-  fs.readFile(jsonPath, 'utf8', function (err,data) {
-    if (err) {
-      console.log(err);
-    } else {
-      const util = require('node:util');
-      const exec = util.promisify(require('node:child_process').exec);
-      
-      const { stdout, stderr } = exec('git tag');
-      console.log('stdout:', stdout);
-      console.error('stderr:', stderr);
-      
+function run() {
+  try {
+    const jsonPath = core.getInput('path');
+    const inc = core.getInput('increment');
+    var fs = require('fs')
+    fs.readFile(jsonPath, 'utf8', function (err, data) {
+      if (err) {
+        console.log(err);
+      } else {
         let jsonData = JSON.parse(data);
         let ver = jsonData['version'];
+
 
         const nums = ver.split('.');
         let maj = parseInt(nums[0]);
         let min = parseInt(nums[1]);
         let pch = parseInt(nums[2]);
 
-        switch(inc) {
-          case "major":
-            maj++;
-            break;
-          case "minor":
-            min++;
-            break;
-          default:
-            pch++;
-            break;            
-        }
+        if (checkTag(ver)) {
+          switch (inc) {
+            case "major":
+              maj++;
+              break;
+            case "minor":
+              min++;
+              break;
+            default:
+              pch++;
+              break;
+          }
 
-        const newVer = maj + "." + min + "." + pch 
-        jsonData['version'] = newVer;
-        core.setOutput("value", newVer);
-
-        // Stringify and write to file.
-        fs.writeFile("test.txt", JSON.stringify(jsonData), function(err) {
-        if (err) {
-            console.log(err);
+          ver = maj + "." + min + "." + pch
+          jsonData['version'] = newVer;
+          // Stringify and write to file.
+          fs.writeFile(jsonPath, JSON.stringify(jsonData), function (err) {
+            if (err) {
+              console.log(err);
+            }
+          });
         }
-      });
-    }
-});
-} catch (error) {
-  core.setFailed(error.message);
+        core.setOutput("value", ver);
+      }
+    });
+  } catch (error) {
+    core.setFailed(error.message);
+  }
 }
+const { context, GitHub } = require('@actions/github');
+
+function checkTag(tag) {
+  const tag = process.env.TAG || process.env.INPUT_TAG || '';
+  console.log(`Searching for tag: ${tag}`);
+
+  // Get owner and repo from context of payload that triggered the action
+  const { owner, repo } = context.repo
+
+  const github = new GitHub(process.env.GITHUB_TOKEN || core.getInput('github_token'));
+
+  try {
+    const getRefResponse = github.git.getRef({
+      owner,
+      repo,
+      ref: `tags/${tag}`
+    });
+
+    if (getRefResponse.status === 200) {
+      console.log("Tag was found");
+      return true;
+    }
+
+  } catch (error) {
+    console.log("Tag was not found");
+  }
+  return false;
+}
+
+run();
