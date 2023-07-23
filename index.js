@@ -55,7 +55,7 @@ function checkTag(tag) {
   // Get owner and repo from context of payload that triggered the action
   const { owner, repo } = context.repo
 
-  const github = new GitHub(process.env.GITHUB_TOKEN);
+  const github = GitHub(process.env.GITHUB_TOKEN);
 
   try {
     const getRefResponse = github.git.getRef({
