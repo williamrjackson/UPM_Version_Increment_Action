@@ -60,12 +60,12 @@ function checkTag(tag) {
   const { owner, repo } = context.repo
   const octokit = getOctokit(token)
   try {
-    const getRefResponse = octokit.git.getRef({
+    const getRefResponse = octokit.rest.git.getRef({
       owner,
       repo,
       ref: `tags/${tag}`
     });
-    const getRefResponse2 = octokit.git.getRef({
+    const getRefResponse2 = octokit.rest.git.getRef({
       owner,
       repo,
       ref: `tags/shouldfail`
