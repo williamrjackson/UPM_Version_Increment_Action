@@ -70,8 +70,8 @@ function checkTag(tag) {
       repo,
       ref: `tags/shouldfail`
     });
-    console.log(`should match: ${getRefResponse}`)
-    console.log(`should fail: ${getRefResponse2}`)
+    console.log(`should match: ${getRefResponse.status}`)
+    console.log(`should fail: ${getRefResponse2.status}`)
     if (getRefResponse.status === 200) {
       console.log("Tag was found");
       return true;
