@@ -11,11 +11,12 @@ async function run() {
     let pch = 0;
     var ver = "";
     var newVer = "";
+    var jsonData;
     fs.readFile(jsonPath, 'utf8', function (err, data) {
       if (err) {
         core.setFailed(err);
       } else {
-        let jsonData = JSON.parse(data);
+        jsonData = JSON.parse(data);
         ver = jsonData['version'];
 
         const nums = ver.split('.');
@@ -46,6 +47,7 @@ async function run() {
           core.setFailed(err);
         }
       });
+      console.log("wrote updated file");
       core.setOutput("value", newVer);
     }
     else
