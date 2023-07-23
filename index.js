@@ -1,4 +1,5 @@
 const core = require('@actions/core');
+const { context, GitHub } = require('@actions/github');
 
 function run() {
   try {
@@ -47,7 +48,6 @@ function run() {
     core.setFailed(error.message);
   }
 }
-const { context, GitHub } = require('@actions/github');
 
 function checkTag(tag) {
   console.log(`Searching for tag: ${tag}`);
@@ -55,7 +55,7 @@ function checkTag(tag) {
   // Get owner and repo from context of payload that triggered the action
   const { owner, repo } = context.repo
 
-  const github = new GitHub(process.env.GITHUB_TOKEN || core.getInput('github_token'));
+  const github = new GitHub(process.env.GITHUB_TOKEN);
 
   try {
     const getRefResponse = github.git.getRef({
