@@ -1,5 +1,5 @@
 const core = require('@actions/core');
-const { context, github } = require('@actions/github');
+const { context, getOctokit } = require('@actions/github');
 
 function run() {
   try {
@@ -58,7 +58,7 @@ function checkTag(tag) {
   }
   // Get owner and repo from context of payload that triggered the action
   const { owner, repo } = context.repo
-  const octokit = github.getOctokit(token)
+  const octokit = getOctokit(token)
   try {
     const getRefResponse = octokit.git.getRef({
       owner,
