@@ -30,31 +30,27 @@ function run() {
         case "minor":
           min++;
           break;
-        default:
+        case "patch":
           pch++;
+          break;
+        default:
           break;
       }
       newVer = maj + "." + min + "." + pch
-      core.setOutput("incremented", ver);
       core.setOutput("version", newVer);
-    });
-    // {
-    //   jsonData['version'] = newVer;
-    //   // Stringify and write to file.
-    //   fs.writeFile(jsonPath, JSON.stringify(jsonData), function (err) {
-    //     if (err) {
-    //       core.setFailed(err);
-    //     }
-    //   });
-    //   console.log("wrote updated file");
-    // }
-    // else
-    // {
-    // }
-  } catch (error) {
-    core.setFailed(error);
-  }
+      if (inc != "none")
+      {
+        jsonData['version'] = newVer;
+        // Stringify and write to file.
+        fs.writeFile(jsonPath, JSON.stringify(jsonData), function (err) {
+          if (err) {
+            core.setFailed(err);
+          }
+        });
+      }
+    })} catch (error) {
+      core.setFailed(error);
+    }
 }
-
 
 run();

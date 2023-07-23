@@ -6,18 +6,12 @@ inputs:
     required: true
     default: 'package.json'
   increment:  
-    description: 'which number to increment: major|minor|patch'
+    description: 'which number to increment: major|minor|patch|none'
     required: true
-    default: 'patch'
-  github_token:  
-    description: 'GitHub access token'
-    required: true
-    default: ${{ github.token }}
+    default: 'none'
 outputs:
   version: # id of output
     description: 'version'
-  incremented: # id of output
-    description: 'incremented'
 runs:
   using: 'node16'
   main: 'index.js'
