@@ -12,6 +12,12 @@ inputs:
 outputs:
   version: # id of output
     description: 'version'
+  major: # id of output
+    description: 'major version number'
+  minor: # id of output
+    description: 'minor version number'
+  patch: # id of output
+    description: 'patch version number'
 runs:
   using: 'node16'
   main: 'index.js'
