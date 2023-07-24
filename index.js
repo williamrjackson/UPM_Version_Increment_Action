@@ -38,6 +38,9 @@ function run() {
       }
       newVer = maj + "." + min + "." + pch
       core.setOutput("version", newVer);
+      core.setOutput("major", maj);
+      core.setOutput("minor", min);
+      core.setOutput("patch", pch);
       if (inc != "none")
       {
         jsonData['version'] = newVer;
